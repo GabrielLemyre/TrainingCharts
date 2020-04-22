@@ -1,3 +1,11 @@
+
+
+
+% —————————————————————————————————————————————————
+% —————————————————————————————————————————————————————————————————————
+% 	POLICES ET LONGUEURS
+% —————————————————————————————————————————————————————————————————————
+% —————————————————————————————————————————————————
 % STYLE FILE TO IMPORT PACKAGES
 \usepackage{fontspec}
 \setmainfont{AutrePoliceGab.ttf} % Import de la police 
@@ -5,11 +13,15 @@
 %\newlength{\PaperWidth}
 \newlength{\mylength}
 \newlength{\longueurNom} 
-\usepackage[paperheight=\PaperHeight cm,paperwidth=\PaperWidth cm,margin=0mm]{geometry}
 
-% Assignation des unités de mesure
-%\setlength{\paperwidth}{\PaperWidth cm}
-%\setlength{\paperheight}{\PaperHeight cm}
+
+% —————————————————————————————————————————————————
+% —————————————————————————————————————————————————————————————————————
+% 	
+% —————————————————————————————————————————————————————————————————————
+% —————————————————————————————————————————————————
+
+\usepackage[paperheight=\PaperHeight cm,paperwidth=\PaperWidth cm,margin=1mm]{geometry}
 
 \usepackage{pgffor}
 \usepackage{amsmath}
@@ -20,7 +32,12 @@
 % Calculatin Modulos package
 \usepackage{intcalc}
 
-\usepackage{xcolor}
+% —————————————————————————————————————————————————
+% —————————————————————————————————————————————————————————————————————
+% 	AUTRES
+% —————————————————————————————————————————————————————————————————————
+% —————————————————————————————————————————————————
+
 \usepackage{calc}% http://ctan.org/pkg/calc
 
 \usepackage{pgfplots}
@@ -33,9 +50,40 @@
 
 \usepackage{makecell}
 
-%\usepackage[dvips]{graphicx}
+\usepackage{graphicx}
 %\usepackage{ifpdf,mla}
 
 \usepackage{ifthen}
 
-\usepackage[many]{tcolorbox}
+
+% —————————————————————————————————————————————————
+% —————————————————————————————————————————————————————————————————————
+% 	COULEURS
+% —————————————————————————————————————————————————————————————————————
+% —————————————————————————————————————————————————
+
+\usepackage{xcolor}
+
+\usepackage{tcolorbox}
+
+\definecolor{mygreen}{RGB}{0,128,0}
+\definecolor{myblue}{RGB}{0,0,255}
+\definecolor{myred}{rgb}{0.858, 0.188, 0.478}
+%\newtcbox{\LongTitleBox}[2][]{colback=myred,#1} % 
+
+\newtcbox{LongTitleBox}[1]{%
+    %top=0mm,
+    %bottom=0mm,
+    %left=0mm,
+    %right=0mm,
+    %width=\dimexpr\linewidth-\AnswerLength-\labelwidth-\labelsep\relax
+    %capture=fitbox,
+    %arc=0pt,
+    %outer arc=0pt,
+%    nobeforeafter,
+%    tcbox raise base,
+    boxsep=5pt,
+    %boxrule=0.0pt,
+    colback=#1
+    %colframe=white,
+}

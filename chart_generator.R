@@ -37,14 +37,39 @@ if (inherits(fn, "try-error")){
 # Obtention de la liste des images
 # ——————————————————————————————————————————————————————————————————————————
 liste.images <- Full.Source(paste(path,"/images", sep=""),ignored.files.vector=c(),print.inside.message = FALSE)
-liste.noms <- rep("Feuille 1",length(liste.images))
 
-dates <- c(as.Date(today()) + 1:20)
+n <- length(liste.images)
+liste.noms <- matrix(NA,ncol=n)
 
-Full.chart <- gen.sport(strsplit(liste.images[1], ".", fixed = TRUE)[[1]][1],"Feuille 1",dates=dates)
+mat.ord.liste.images <- matrix(NA,nrow=n,ncol=2)
 
-for (i in 2:length(liste.images)){
-  Full.chart <- paste(Full.chart,gen.sport(strsplit(liste.images[i], ".", fixed = TRUE)[[1]][1],"Feuille 1",dates=dates, len = length(dates)),sep="",collapse="")
+for (i in 1:n){
+  # Obtention du nom du fichier
+  str.split <- strsplit(liste.images[i], "/", fixed = TRUE)[[1]]
+  n.temp <- length(str.split)
+  file.name <- str.split[n.temp]
+  print(file.name)
+  
+  # Obtention de son numero dans l'ordre
+  split <- strsplit(strsplit(file.name,".",fixed=TRUE)[[1]][1], "_", fixed = TRUE)[[1]]
+  number.split <- split[1]
+  
+  liste.noms[i] <- paste(split[1],paste(split[-1],sep=" ",collapse=" "),sep=". ",collapse=" ")
+  
+  mat.ord.liste.images[i,] <- c(as.numeric(number.split),liste.images[i])
+}
+ord.list.img.df <- as.data.frame(mat.ord.liste.images)
+liste.img.finale <- ord.list.img.df[order(as.numeric(as.character(ord.list.img.df$V1))),]
+liste.noms <- liste.noms[order(as.numeric(as.character(ord.list.img.df$V1)))]
+
+
+# Selection des dates
+dates <- c(as.Date(today()) + 0:60)
+
+Full.chart <- gen.sport(strsplit(as.character(liste.img.finale$V2[1]), ".", fixed = TRUE)[[1]][1],liste.noms[1],dates=dates)
+
+for (i in 2:n){
+  Full.chart <- paste(Full.chart,gen.sport(strsplit(as.character(liste.img.finale$V2[i]), ".", fixed = TRUE)[[1]][1],liste.noms[i],dates=dates, len = length(dates)),sep="",collapse="")
 }
 
 Copie.Presse.Papier(Full.chart)

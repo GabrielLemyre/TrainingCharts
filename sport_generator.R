@@ -59,8 +59,8 @@ gen.sport <- function(image,titre=NULL, dates, len=NULL){
   # Fin de lexecution et retour du resultat
   Copie.Presse.Papier(Final.str) # Copie le string concatene au presse-papier
   
-  str=cat(Final.str) # Limprime aussi dans la console R
+  # str=cat(Final.str) # Limprime aussi dans la console R
   
-  return(Final.str)
+  Final.str
 }
 
