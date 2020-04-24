@@ -64,15 +64,23 @@ liste.noms <- liste.noms[order(as.numeric(as.character(ord.list.img.df$V1)))]
 
 
 # Selection des dates
-dates <- c(as.Date(today()) + 0:60)
+dates <- c(as.Date(today()) + 0:20)
+n <- length(dates)
 
 Full.chart <- gen.sport(strsplit(as.character(liste.img.finale$V2[1]), ".", fixed = TRUE)[[1]][1],liste.noms[1],dates=dates)
 
-for (i in 2:n){
-  Full.chart <- paste(Full.chart,gen.sport(strsplit(as.character(liste.img.finale$V2[i]), ".", fixed = TRUE)[[1]][1],liste.noms[i],dates=dates, len = length(dates)),sep="",collapse="")
+for (i in 2:3){
+  Full.chart <- paste(
+    Full.chart,
+    gen.sport(
+      image = strsplit(as.character(liste.img.finale$V2[i]), ".", fixed = TRUE)[[1]][1],
+      titre = liste.noms[i], 
+      len = n
+    ),
+    sep="",
+    collapse=""
+  )
 }
 
 Copie.Presse.Papier(Full.chart)
-
-
 
