@@ -8,13 +8,15 @@
 # ----------------------------------------------------------------------------------------------------
 # Last version : lundi, 20 avril 2020
 # ----------------------------------------------------------------------------------------------------
-
+rm(list=ls())
 
 # --------------------------------------------------------
 # Changement du document de travail
 # --------------------------------------------------------
 path <- '~/Documents/GitHub/TrainingCharts'
 setwd(path.expand(path)) # Setting Sourcing path
+
+nbrows <- 4
 
 # install.packages("lubridate")
 library("lubridate")
@@ -67,7 +69,7 @@ liste.noms <- liste.noms[order(as.numeric(as.character(ord.list.img.df$V1)))]
 dates <- c(as.Date(today()) + 0:20)
 n <- length(dates)
 
-Full.chart <- gen.sport(strsplit(as.character(liste.img.finale$V2[1]), ".", fixed = TRUE)[[1]][1],liste.noms[1],dates=dates)
+Full.chart <- gen.sport(strsplit(as.character(liste.img.finale$V2[1]), ".", fixed = TRUE)[[1]][1],liste.noms[1],dates=dates,nbrows=nbrows)
 
 for (i in 2:3){
   Full.chart <- paste(
@@ -75,7 +77,8 @@ for (i in 2:3){
     gen.sport(
       image = strsplit(as.character(liste.img.finale$V2[i]), ".", fixed = TRUE)[[1]][1],
       titre = liste.noms[i], 
-      len = n
+      len = n,
+      nbrows=nbrows
     ),
     sep="",
     collapse=""

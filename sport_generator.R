@@ -13,45 +13,54 @@
 # FONCTION PERMETTANT D'IMPRIMER LE RÉSULTATS EN FORMAT LATEX
 # ——————————————————————————————————————————————————————————————————————————
 
-gen.sport <- function(image,titre=NULL, dates=NULL, len=NULL, cell.width.str=NULL){
+gen.sport <- function(image,titre=NULL, dates=NULL, len=NULL, cell.w.cm=1.4, nbrows=3){
   
+  slash <- chr(92)
   jour.sem <- c("dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi")
   mois.anne <- c("janv.", 	"févr.", 	"mars", 	"avr.", 	"mai", 	"juin", 	"juil.",  	"août", 	"sept.", 	"oct.", 	"nov.", 	"déc.")
-  cell.w.cm <- 1.4
   
   Final.str <- paste("% ------------------------ \n",
-                     chr(92),"noindent \n",
-                     chr(92),"begin{minipage}{",
-                     chr(92),"linewidth} \n",
-                     chr(92),"mbox{}",chr(92),"par \n",     
-                     chr(92),"begin{tabular}{|*{10}{c}|*{",n,"}{||c}|} \n",sep="",collapse="")
+                     slash,"noindent \n",
+                     slash,"begin{minipage}{",
+                     slash,"linewidth} \n",
+                     slash,"mbox{}",slash,"par \n",     
+                     slash,"begin{tabular}{|*{10}{c}*{",n,"}{||c}|} \n",sep="",collapse="")
+  
+  first.hhline <- paste("hhline{*{10}{~}*{",n,"}{-}}",sep="",collapse="")
+  hhline <- paste("hhline{*{10}{~}*{",n,"}{:=:}}",sep="",collapse="")
+  hhline.last <- paste("hhline{*{10}{-}*{",n,"}{|~|}}",sep="",collapse="")
   
   if (is.null(len)){
     print("YES dates")
     n <- length(dates)
-    dates.string <- paste(" & ",chr(92),"thead{",jour.sem[wday(dates)]," ",chr(92),chr(92),chr(92),"hline ",mday(dates)," ",mois.anne[month(dates)]," $_{",chr(92),"text{",year(dates),"}}$}",sep="",collapse="")
+    dates.string <- paste(" & ",slash,"thead{",jour.sem[wday(dates)]," ",slash,slash,slash,"hline ",mday(dates)," ",mois.anne[month(dates)]," $_{",slash,"text{",year(dates),"}}$}",sep="",collapse="")
     
     Final.str <- paste(Final.str,
-                       chr(92),"hhline{*{10}{~}*{",n,"}{-}} \n",
-                       chr(92),"multicolumn{10}{c|}{}",dates.string,chr(92),chr(92)," \n",
-                       chr(92),"hhline{*{10}{-}*{",n,"}{:=:}} \n",sep="",collapse="")
+                       slash,first.hhline,"\n",
+                       slash,"multicolumn{10}{c|}{}",dates.string,slash,slash," \n",
+                       slash,hhline,"\n",sep="",collapse="")
   } else {
     print("NO dates")
     n <- len
     Final.str <- paste(Final.str,     
-                       chr(92),"hhline{*{10}{-}*{",n,"}{-}} \n",sep="",collapse="")
+                       slash,first.hhline,"\n",sep="",collapse="")
   }
   
+  mult.10 <- "multicolumn{10}{l|}{"
+  mult.10.last <- "multicolumn{10}{|l||}{"
+  
+  calendar.row <- paste(slash,mult.10,"}                  ",paste(rep(paste("& ",slash,"multirow{2}{*}{",slash,"hspace{",cell.w.cm,"cm}}",sep="",collapse=""),n),sep="",collapse=""),slash,slash," \n",
+                        slash,mult.10,"}                  ",paste(rep("& ",n),sep="",collapse=""),slash,slash," ",slash,hhline, "\n",sep="",collapse="")
+  
   Final.str <- paste(Final.str,
-                     chr(92),"multicolumn{10}{|l||}{",chr(92),"multirow{5}{*}{",chr(92),'includegraphics[width=3cm]{"',image,'"}}} ',paste(rep(paste("& ",chr(92),"multirow{2}{*}{",chr(92),"hspace{",cell.w.cm,"cm}}",sep="",collapse=""),n),sep="",collapse=""),chr(92),chr(92)," \n",
-                     chr(92),"multicolumn{10}{|l||}{}                  ",paste(rep("& ",n),sep="",collapse=""),chr(92),chr(92)," ",chr(92),"hhline{|*{10}{~}|*{",n,"}{:=:}} \n",
-                     chr(92),"multicolumn{10}{|l||}{}                  ",paste(rep(paste("& ",chr(92),"multirow{2}{*}{",chr(92),"hspace{",cell.w.cm,"cm}}",sep="",collapse=""),n),sep="",collapse=""),chr(92),chr(92)," \n",
-                     chr(92),"multicolumn{10}{|l||}{}                  ",paste(rep("& ",n),sep="",collapse=""),chr(92),chr(92)," ",chr(92),"hhline{|*{10}{~}|*{",n,"}{:=:}} \n",
-                     chr(92),"multicolumn{10}{|l||}{}                  ",paste(rep(paste("& ",chr(92),"multirow{2}{*}{",chr(92),"hspace{",cell.w.cm,"cm}}",sep="",collapse=""),n),sep="",collapse=""),chr(92),chr(92)," ",chr(92),"cline{1-10}  \n",
-                     chr(92),"multicolumn{10}{|l||}{",titre,"}         ",paste(rep("& ",n),sep="",collapse=""),chr(92),chr(92)," ",chr(92),"hline \n",
-                     chr(92),"end{tabular} \n",
-                     chr(92),"end{minipage} \n",
-                     "~",chr(92),chr(92)," \n",
+                     slash,mult.10,slash,"multirow{",2*nbrows-1,"}{*}{",slash,'includegraphics[width=3cm]{"',image,'"}}} ',paste(rep(paste("& ",slash,"multirow{2}{*}{",slash,"hspace{",cell.w.cm,"cm}}",sep="",collapse=""),n),sep="",collapse=""),slash,slash," \n",
+                     slash,mult.10,"}                  ",paste(rep("& ",n),sep="",collapse=""),slash,slash," ",slash,hhline," \n",
+                     paste(rep(calendar.row,(nbrows-2)),sep="",collapse=""),
+                     slash,mult.10,"}                  ",paste(rep(paste("& ",slash,"multirow{2}{*}{",slash,"hspace{",cell.w.cm,"cm}}",sep="",collapse=""),n),sep="",collapse=""),slash,slash," ",slash,hhline.last,"\n",
+                     slash,mult.10.last,titre,"}       ",paste(rep("& ",n),sep="",collapse=""),slash,slash," ",slash,"hline \n",
+                     slash,"end{tabular} \n",
+                     slash,"end{minipage} \n",
+                     "~",slash,slash," \n",
                      "% ----------------------------------------------------- \n \n",sep="",collapse="")
   
   # Fin de lexecution et retour du resultat
