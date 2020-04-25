@@ -13,8 +13,7 @@ username <- "GL"
 nb.days <- 5
 path.output <- '~/Documents/GitHub/TrainingCharts/code/latex'
 
-file.git <- ""
-script <- getURL(file.git, ssl.verifypeer = FALSE)
+file.git <- "https://raw.githubusercontent.com/GabrielLemyre/TrainingCharts/master/code/R/sport_generator.R"
 
 
 # --------------------------------------------------------
@@ -23,6 +22,7 @@ script <- getURL(file.git, ssl.verifypeer = FALSE)
 path.code <- '~/Documents/GitHub/TrainingCharts/code/R'
 setwd(path.expand(path.code)) # Setting Sourcing path
 
+path.git <- 'https://raw.githubusercontent.com/GabrielLemyre/TrainingCharts/master/code/R/'
 
 # --------------------------------------------------------
 # Wrapping of all sources in wd
@@ -37,7 +37,11 @@ setwd(path.expand(path.images)) # Setting Sourcing path
 # ——————————————————————————————————————————————————————————————————————————
 # Obtention de la liste des images
 # ——————————————————————————————————————————————————————————————————————————
-liste.images <- Full.Source(paste(path.images,"/images", sep=""),ignored.files.vector=NULL,print.inside.message = FALSE, type="pdf")
+liste.images <- Full.Source(paste(path.images,"/images", sep=""),
+                            ignored.files.vector=NULL,
+                            print.inside.message = FALSE, 
+                            type="pdf")
+
 
 n.images <- length(liste.images)
 

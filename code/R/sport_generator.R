@@ -12,9 +12,10 @@
 # ——————————————————————————————————————————————————————————————————————————
 # FONCTION PERMETTANT D'IMPRIMER LE RÉSULTATS EN FORMAT LATEX
 # ——————————————————————————————————————————————————————————————————————————
-
+print("Oldschool")
 gen.sport <- function(image,titre=NULL, dates=NULL, len=NULL, cell.w.cm=1.4, nbrows=3, slash=chr(92), total.line=TRUE){
   
+  print("In the Oldschool")
   if (is.null(len)){
     print("YES dates")
     n <- length(dates)

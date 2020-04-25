@@ -50,6 +50,7 @@ sources_correctly("RunTime.R")
 # Changement du document de travail
 # --------------------------------------------------------
 setwd(path.expand(path.code)) # Setting Sourcing path
+sources_correctly("packages.R")
 
 
 # --------------------------------------------------------
@@ -57,11 +58,36 @@ setwd(path.expand(path.code)) # Setting Sourcing path
 # Fonctions de bases pour l'entrainement du modèle
 # --------------------------------------------------------
 # Obtention de la liste de toutes les fonctions .R proches de wrapper.R
-source.files.liste <- Full.Source(path.code,ignored.files.vector=c("wrapper.R","chart_generator.R"),print.inside.message = FALSE,type="R")
+source.files.liste <- file.list(path.code,
+                                ignored.files.vector=c("packages.R","wrapper.R","chart_generator.R"),
+                                print.inside.message = FALSE,
+                                type="R",
+                                from.git=FALSE)
+
+source.files.liste.string <- paste(source.files.liste,sep="\n",collapse="")
+file <- paste(path.code,"/file_list.txt",sep="")
+file.test(file)
+writeLines(source.files.liste, file)
+# --------------------------------------------------------
+
 n.files <- length(source.files.liste)
 
 # Sourcing all files in the given list
-for (i in 1:n.files){
-  cat("sourcing",source.files.liste[i],"\n")
-  sources_correctly(source.files.liste[i])
-}
+# for (i in 1:n.files){
+#   cat("sourcing",source.files.liste[i],"\n")
+#   sources_correctly(source.files.liste[i])
+# }
+
+
+# Obtention de la liste de toutes les fonctions .R proches de wrapper.R
+print('BEfore')
+file.names <- c(as.vector(read.table(file,
+                                     colClasses = "character"))[,1])
+
+source.files.liste <- file.list(path.git,
+                                ignored.files.vector=c("packages.R","wrapper.R","chart_generator.R"),
+                                print.inside.message = FALSE,
+                                type="R",
+                                from.git=TRUE,
+                                file.names=file.names)
+# --------------------------------------------------------
