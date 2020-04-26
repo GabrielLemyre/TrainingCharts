@@ -12,23 +12,26 @@
 # ——————————————————————————————————————————————————————————————————————————
 # FONCTION PERMETTANT D'IMPRIMER LE RÉSULTATS EN FORMAT LATEX
 # ——————————————————————————————————————————————————————————————————————————
-print("Oldschool")
-gen.sport <- function(image,titre=NULL, dates=NULL, len=NULL, cell.w.cm=1.4, nbrows=3, slash=chr(92), total.line=TRUE){
+gen.sport <- function(image,
+                      titre=NULL, 
+                      dates=NULL, 
+                      len=NULL, cell.w.cm=1.4, nbrows=3, slash=chr(92), 
+                      total.line=FALSE,
+                      image.width=3){
   
-  print("In the Oldschool")
   if (is.null(len)){
-    print("YES dates")
     n <- length(dates)
+    Final.str <- ""
   } else {
-    print("NO dates")
     n <- len
+    Final.str <- paste0("~",slash,slash," \n\n")
   }
   
-  image.width <- nbrows
   jour.sem <- c("dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi")
   mois.anne <- c("janv.", 	"févr.", 	"mars", 	"avr.", 	"mai", 	"juin", 	"juil.",  	"août", 	"sept.", 	"oct.", 	"nov.", 	"déc.")
-    
-  Final.str <- paste('% ------------------------ \n',
+  
+  Final.str <- paste(Final.str,
+                     '% ------------------------ \n',
                      slash,'noindent \n',
                      slash,"begin{minipage}{",
                      slash,"linewidth} \n",
@@ -39,8 +42,9 @@ gen.sport <- function(image,titre=NULL, dates=NULL, len=NULL, cell.w.cm=1.4, nbr
   hhline <- paste("hhline{*{10}{~}*{",n,"}{:=:}}",sep="",collapse="")
   hhline.last <- paste("hhline{*{10}{-}*{",n,"}{|~|}}",sep="",collapse="")
   
+  # FIRST LINE OF SPORT
   if (is.null(len)){
-    print("YES dates")
+    # print("YES dates")
     dates.string <- paste(" & ",slash,"thead{",jour.sem[wday(dates)]," ",slash,slash,slash,"hline ",mday(dates)," ",mois.anne[month(dates)]," $_{",slash,"text{",year(dates),"}}$}",sep="",collapse="")
     
     Final.str <- paste(Final.str,
@@ -48,35 +52,79 @@ gen.sport <- function(image,titre=NULL, dates=NULL, len=NULL, cell.w.cm=1.4, nbr
                        slash,"multicolumn{10}{c|}{}",dates.string,slash,slash," \n",
                        slash,hhline,"\n",sep="",collapse="")
   } else {
-    print("NO dates")
+    # print("NO dates")
     Final.str <- paste(Final.str,     
                        slash,first.hhline,"\n",sep="",collapse="")
   }
   
   mult.10 <- "multicolumn{10}{l|"
   
+  # 
+  n.multirow <- switch(as.character(nbrows),"2"=6/nbrows,"1"=6/nbrows,2)
   
-  calendar.row <- paste(slash,mult.10,"}{}                  ",paste(rep(paste("& ",slash,"multirow{2}{*}{",slash,"hspace{",cell.w.cm,"cm}}",sep="",collapse=""),n),sep="",collapse=""),slash,slash," \n",
-                        slash,mult.10,"}{}                  ",paste(rep("& ",n),sep="",collapse=""),slash,slash," ",slash,hhline, "\n",sep="",collapse="")
-  
-  charter <- function(){
-    return(paste(Final.str,
-                     slash,mult.10,"}{",slash,"multirow{",2*nbrows-1,"}{*}{",slash,'includegraphics[width=',image.width,'cm]{"',image,'"}}} ',paste(rep(paste("& ",slash,"multirow{2}{*}{",slash,"hspace{",cell.w.cm,"cm}}",sep="",collapse=""),n),sep="",collapse=""),slash,slash," \n",
-                     slash,mult.10,"}{}                  ",paste(rep("& ",n),sep="",collapse=""),slash,slash," ",slash,hhline," \n",
-                     paste(rep(calendar.row,(nbrows-2)),sep="",collapse=""),
-                     slash,mult.10,"}{}                  ",paste(rep(paste("& ",slash,"multirow{2}{*}{",slash,"hspace{",cell.w.cm,"cm}}",sep="",collapse=""),n),sep="",collapse=""),slash,slash," ",slash,hhline.last,"\n",
-                     slash,substr("multicolumn{10}{l|",1,nchar(mult.10)-2),"|l||}{",titre,"}       ",paste(rep("& ",n),sep="",collapse=""),slash,slash," ",slash,"hline \n",
-                     slash,"end{tabular} \n",
-                     slash,"end{minipage} \n",
-                     "~",slash,slash," \n",
-                     "% ----------------------------------------------------- \n \n",sep="",collapse=""))
+  # EMPTY LINE
+  ligne.vide <- function(last.line=FALSE){
+    res <- paste0(
+      slash,mult.10,"}{}          ",
+      paste0(rep("& ",n),
+             collapse=""),
+      slash,slash," ",if(last.line){paste0(slash,if(last.line==2){hhline.last}else{hhline},collapse="")}," \n",
+      collapse="")
+    return(res)
   }
   
-  Final.str <- charter()
+  # CALENDAR ROW
+  calendar.row <- paste0(
+    slash,mult.10,"}{}                  ",
+    paste0(
+      rep(
+        paste0(
+          "& ",
+          slash,"multirow{",n.multirow,"}{*}{",slash,"hspace{",cell.w.cm,"cm}}",
+          collapse=""),n),
+      collapse=""),slash,slash," \n",
+    paste0(rep(ligne.vide(0),
+               n.multirow-2),
+           ligne.vide(1),
+           collapse=""),
+    collapse="")
+  
+  # LIGNE AVEC IMAGE
+  premiere.ligne <- paste0(slash,mult.10,"}{",
+                           slash,"multirow{",2*nbrows-1,"}{*}{",
+                           slash,'includegraphics[width=',image.width,'cm]{"',image,'"}}} ',paste0(
+                             rep(paste0(
+                               "& ",slash,"multirow{",n.multirow,"}{*}{",slash,"hspace{",cell.w.cm,"cm}}",
+                               collapse=""),n),
+                             collapse=""),slash,slash," \n",
+                           paste0(
+                             rep(ligne.vide(0),
+                                 n.multirow-if(nbrows>1){2}else{3}),if(nbrows>1){ligne.vide(1)},
+                             collapse=""),
+                           collapse="")
+    
+  # ASSEMBLAGE DU TABLEAU
+  Final.str <- paste0(Final.str,
+                  premiere.ligne,
+                  if(nbrows>1){
+                    paste0(rep(calendar.row,
+                               (nbrows-2)),collapse="")
+                  },
+                  if(nbrows>1){paste0(rep(ligne.vide(0),
+                                          n.multirow-2),
+                                      collapse="")},
+                  ligne.vide(2),
+                  slash,substr(mult.10,1,nchar(mult.10)-2),"|l||}{",titre,"}       ",
+                  paste0(rep("& ",n),
+                         collapse=""),slash,slash," ",slash,"hline \n",
+                  slash,"end{tabular} \n",
+                  slash,"end{minipage} \n",
+                  "% ----------------------------------------------------- \n",collapse="")
+  
   
   if (total.line){
     # Final.str <- paste(Final.str,sep="",collapse="")
-    print("TODO : total.line=TRUE")
+    cat("TODO : total.line=TRUE\n")
   }
   
   # Fin de lexecution et retour du resultat

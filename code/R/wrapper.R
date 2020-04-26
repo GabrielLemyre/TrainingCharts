@@ -70,24 +70,29 @@ file.test(file)
 writeLines(source.files.liste, file)
 # --------------------------------------------------------
 
+
+# Obtention de la liste de toutes les fonctions .R proches de wrapper.R
+# print('Before')
+# file.names <- c(as.vector(read.table(file,
+#                                      colClasses = "character"))[,1])
+# 
+# source.files.liste <- file.list(path.git,
+#                                 ignored.files.vector=c("packages.R","wrapper.R","chart_generator.R"),
+#                                 print.inside.message = FALSE,
+#                                 type="R",
+#                                 from.git=TRUE,
+#                                 file.names=file.names)
+
 n.files <- length(source.files.liste)
 
 # Sourcing all files in the given list
-# for (i in 1:n.files){
-#   cat("sourcing",source.files.liste[i],"\n")
-#   sources_correctly(source.files.liste[i])
-# }
+hline()
+cat("IMPORTATION DU MATERIEL INFORMATIQUE\n")
+hline()
+for (i in 1:n.files){
+  cat("sourcing",source.files.liste[i],"\n")
+  sources_correctly(source.files.liste[i])
+}
+cat(hline(),"\n")
 
-
-# Obtention de la liste de toutes les fonctions .R proches de wrapper.R
-print('BEfore')
-file.names <- c(as.vector(read.table(file,
-                                     colClasses = "character"))[,1])
-
-source.files.liste <- file.list(path.git,
-                                ignored.files.vector=c("packages.R","wrapper.R","chart_generator.R"),
-                                print.inside.message = FALSE,
-                                type="R",
-                                from.git=TRUE,
-                                file.names=file.names)
 # --------------------------------------------------------
