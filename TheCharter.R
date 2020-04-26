@@ -7,18 +7,40 @@ rm(list=ls())
 # ----------------------------------------------------------------------------------------------------
 # Last version : 26 avril 2020
 # ----------------------------------------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------------------------------------
+# Information sur le tableau et son créateur
+# ----------------------------------------------------------------------------------------------------
 username <- "VTL"
 nb.days <- 30
 image.width <- 3
+#
+# ----------------------------------------------------------
+# Le format des images doit être 'index_nom_nblignes.pdf'
+#   Où 'index' correspond à l'ordre d'apparition de l'image,
+#   'nom' correspond au nom apparaitra sous cette image
+#   et 'nblignes' correspond au nombre de ligne associées à 
+#   cette image dans le tableau
+# ----------------------------------------------------------
 path.images <- '~/Documents/GitHub/TrainingCharts/images_VTL'
-
+# ----------------------------------------------------------
+#
+# ----------------------------------------------------------
+# L'endroit où le fichier LaTeX sera enregistré
+# ----------------------------------------------------------
 path.output <- '~/Documents/GitHub/TrainingCharts/code/latex'
-
+# --------------------------------------------------------
+#
 # --------------------------------------------------------
 # Changement du document de travail
 # --------------------------------------------------------
 path.code <- '~/Documents/GitHub/TrainingCharts/code/R'
 setwd(path.expand(path.code)) # Setting Sourcing path
-
+# --------------------------------------------------------
+#
+# --------------------------------------------------------
 # GENERATING CHART ----
+# --------------------------------------------------------
 source("chart_generator.R")
+# --------------------------------------------------------
