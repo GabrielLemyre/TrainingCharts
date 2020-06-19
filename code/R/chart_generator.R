@@ -45,7 +45,11 @@ for (i in 1:n.images){
 slash <- chr(92)
 
 # Selection des dates
-dates <- c(as.Date(today()) + 0:nb.days)
+if (!is.null(nb.days)){
+  dates <- c(as.Date(today()) + -1:nb.days)
+} else {
+  dates <- seq(as.Date(De), as.Date(A), by="days")
+}
 n.dates <- length(dates)
 
 hline()
@@ -60,7 +64,7 @@ Full.chart <- preambule(n.images=n.images,
 
 # Ajout du premier sport, comprenant les dates
 Full.chart <- paste(Full.chart,
-                    gen.sport(strsplit(as.character(liste.img.finale$V2[1]),
+                    gen.sport(strsplit(as.character(liste.img.finale$path[1]),
                                        ".", 
                                        fixed = TRUE)[[1]][1],
                               liste.noms[1],
@@ -72,27 +76,30 @@ Full.chart <- paste(Full.chart,
 
 # Ajout des n.images-1 images suivantes
 total.line=FALSE
-for (i in 2:n.images){
-  if(i==n.images){
-    total.line <- TRUE
-  }else{
-    total.line <- FALSE
+if (n.images>1){
+  for (i in 2:n.images){
+    if(i==n.images){
+      total.line <- TRUE
+    }else{
+      total.line <- FALSE
+    }
+    Full.chart <- paste(
+      Full.chart,
+      gen.sport(
+        image = strsplit(as.character(liste.img.finale$path[i]), ".", fixed = TRUE)[[1]][1],
+        titre = liste.noms[i], 
+        len = n.dates,
+        nbrows=liste.nb.rows[i],
+        slash=slash,
+        total.line=total.line,
+        image.width=image.width
+      ),
+      sep="",
+      collapse=""
+    )
   }
-  Full.chart <- paste(
-    Full.chart,
-    gen.sport(
-      image = strsplit(as.character(liste.img.finale$V2[i]), ".", fixed = TRUE)[[1]][1],
-      titre = liste.noms[i], 
-      len = n.dates,
-      nbrows=liste.nb.rows[i],
-      slash=slash,
-      total.line=total.line,
-      image.width=image.width
-    ),
-    sep="",
-    collapse=""
-  )
 }
+
 
 Full.chart <- paste(Full.chart,slash,"end{document}",sep="")
 cat(hline(),"\n")

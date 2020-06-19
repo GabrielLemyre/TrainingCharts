@@ -23,14 +23,15 @@ preambule <- function(n.images,
   
   padding.horizontal <- image.width+0.5
   page.width <- padding.horizontal + n.dates*1.920455
-  page.height <- (n.images-1)*0.5+(n.rows+1)*0.9368182
+  page.height <- (n.images-1)*0.5+(n.rows+1)*0.85+n.rows*0.048
+  print(page.height)
   
   paste(slash,"documentclass{article} \n\n",
         "% Largeur papier en cm\n",
         slash,"def",slash,"PaperWidth{",page.width,"} % 21 jours \n \n",
         "% Hauteur papier en cm\n",
         slash,"def",slash,"PaperHeight{",page.height,"} % 5 blocs \n\n",
-        slash,"usepackage{Packages} % Input du fichier appelant les pkgs \n",
+        slash,"usepackage{tools/Packages} % Input du fichier appelant les pkgs \n",
         slash,"renewcommand{",slash,"arraystretch}{",arraystretch,"} \n",
         slash,"author{Gabriel Lemyre} \n\n",
         slash,"begin{document} \n",
