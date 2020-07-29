@@ -1,52 +1,15 @@
-\documentclass[a4paper,12pt]{article}
-\usepackage{amssymb} % needed for math
-\usepackage{amsmath} % needed for math
-\usepackage[utf8]{inputenc} % this is needed for german umlauts
-\usepackage[ngerman]{babel} % this is needed for german umlauts
-\usepackage[T1]{fontenc}    % this is needed for correct output of umlauts in pdf
-\usepackage[margin=2.5cm]{geometry} %layout
+\documentclass{article}
 
-\usepackage{hyperref}  % this is needed for forms and links within the text
-
-\hypersetup{
-  pdfauthor   = {Martin Thoma},
-  pdfkeywords = {Martin Thoma, exmple, LaTeX, form},
-  pdftitle    = {An example for a LaTeX form}
-}
+\usepackage{hyperref}
 
 \begin{document}
 
-\title{An example for a LaTeX form}
-\author{Martin Thoma}
-\date{\today}
-
-\section{An example for a \LaTeX~form}
-
-\begin{Form}[action=mailto:gabriel@lemyre.org,encoding=html,method=post]
-\subsection{Some general information:}
-\begin{tabbing}
-xxxxxxxxxx: \= \kill  % This is needed for the right tab width
-Name:           \> \TextField[name=name,width=3cm,charsize=12pt]
-{\mbox{}}
-Prename: \TextField[name=vor,width=3cm,charsize=12pt]
-{\mbox{}} \\
-
-City:           \>
-\ChoiceMenu[combo,name=city,width=5cm,charsize=12pt,default=Karlsruhe]{\mbox{}}{Chemnitz,Dresden,Leipzig,Berlin,Hamburg,Karlsruhe,Muuml;nchen} \\
-
-Sex:    \>
-\ChoiceMenu[radio,default=f,name=sex,charsize=14pt]{\mbox{}}{Male=m,Female=f}
-\end{tabbing}
-
-\subsection{Education:}
-\CheckBox[name=highschool,charsize=12pt]{High School}
-\CheckBox[name=college,charsize=12pt]{College}
-\CheckBox[name=university,charsize=12pt]{University} \\
-
-
-\Submit{Go}
-\Reset{Clear}
-\hfill ~\\
+\begin{Form}
+\begin{tabular}{l}
+    \TextField{Name} \\\\
+    \CheckBox[width=1em]{Check} \\\\
+\end{tabular}
 \end{Form}
+
 
 \end{document}
