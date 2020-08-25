@@ -9,12 +9,8 @@
 # ----------------------------------------------------------------------------------------------------
 
 # install.packages("lubridate")
-library(lubridate)
+library("lubridate")
 
 # Makes it possible to source files from their GitHub repository website page
 # install.packages("RCurl")
 library(RCurl)
-
-# Makes it possible to source files from their GitHub repository website page
-# install.packages("magrittr")
-library(magrittr)

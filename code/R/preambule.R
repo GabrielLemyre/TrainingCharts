@@ -9,22 +9,21 @@
 # Last version : 25 avril 2020
 # ----------------------------------------------------------------------------------------------------
 
-preambule <- function(n.section,
+preambule <- function(n.images,
                       n.dates,
                       n.rows,
                       slash,
                       image.height=3,
                       image.width=3,
-                      arraystretch=1,
-                      cell.w.cm=1.4){
+                      arraystretch=1){
   
   # cat("n.images :",n.images,"\n")
   # cat("n.dates :",n.dates,"\n")
   # cat("slash :",slash,"\n")
   
-  padding.horizontal <- image.width+0.55
-  page.width <- padding.horizontal + n.dates*(cell.w.cm+.520455)
-  page.height <- (n.section-1)*0.5+(n.rows+1)*0.85+n.rows*0.048
+  padding.horizontal <- image.width+0.5
+  page.width <- padding.horizontal + n.dates*1.920455
+  page.height <- (n.images-1)*0.5+(n.rows+1)*0.85+n.rows*0.048
   print(page.height)
   
   paste(slash,"documentclass{article} \n\n",

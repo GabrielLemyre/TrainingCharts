@@ -1,4 +1,0 @@
-/Users/gabriellemyre/Documents/GitHub/TrainingCharts/code/R/autre.R
-/Users/gabriellemyre/Documents/GitHub/TrainingCharts/code/R/name_break.R
-/Users/gabriellemyre/Documents/GitHub/TrainingCharts/code/R/preambule.R
-/Users/gabriellemyre/Documents/GitHub/TrainingCharts/code/R/sport_generator_testForm.R
