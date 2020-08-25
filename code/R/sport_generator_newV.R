@@ -23,7 +23,7 @@ gen.sport <- function(image,
                       is.text=F,
                       numero.segment){
   
-  print(nbrows)
+  # print(nbrows)
   
   slash <- chr(92)
   linebreak <- paste0(slash,slash)
@@ -47,7 +47,7 @@ gen.sport <- function(image,
   multicolumn.10 <- paste0(slash,"multicolumn{10}{p{",image.width,"cm}|")
   
   # Hauteur de chaque cellule verticale
-  cat("nbrows=",as.character(nbrows),"\n")
+  # cat("nbrows=",as.character(nbrows),"\n")
   n.multirow <- switch(as.character(nbrows),"1"=6/nbrows,"2"=6/nbrows,2)
   
   Form.field.cell.builder <- function(width,
@@ -95,7 +95,7 @@ gen.sport <- function(image,
     #   Ajout de "n.horizontal" cellules avec boite de formulaire ou vide si pas de formulaire demandé
     if (id.ligne==3){
       for (no.colonne in 1:n.horizontal){
-        print(no.colonne)
+        # print(no.colonne)
         string.item <- paste0(string.item,
                Form.field.cell.builder(width=width,height=height,
                                        activite=no.activite,
@@ -140,7 +140,7 @@ gen.sport <- function(image,
     
     last.row.string <- ""
     if (last.row){
-      print("GOGO")
+      cat("Last row of activity #",no.activite,"\n")
       last.row.string <- construction.ligne.tableau(id.ligne=0,
                                                     n.horizontal=n.horizontal,
                                                     height=n.multirow-1)
@@ -195,7 +195,7 @@ gen.sport <- function(image,
   }
   
   
-  cat(calendar.bloc)
+  # cat(calendar.bloc)
   
   # ———————————————————————————————————
   # DATES ROW

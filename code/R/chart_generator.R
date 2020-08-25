@@ -179,7 +179,7 @@ cat(hline(),"\n")
 Copie.Presse.Papier(Full.chart)
 # print(Full.chart.tex, file = paste(path.output,"filename.tex",sep="/"), compress = FALSE) # https://unix.stackexchange.com/a/368184/16920
 
-file <- paste(path.output,"/",username,"_chart.tex",sep="")
+file <- paste0(path.output,"/",username,"_chart_",Sys.Date(),".tex")
 file.test(file)
 writeLines(Full.chart, file)
 
